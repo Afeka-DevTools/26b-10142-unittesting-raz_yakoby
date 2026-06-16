@@ -6,9 +6,265 @@ package org.example;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 class AppTest {
-    @Test void appHasAGreeting() {
-        App classUnderTest = new App();
-        assertNotNull(classUnderTest.getGreeting(), "app should have a greeting");
+    @Test
+    void addShouldReturnSumOfPositiveNumbers() {
+        assertEquals(8, App.add(3, 5), "add(3, 5) should return 8");
+    }
+
+    @Test
+    void addShouldReturnSumWhenOneOperandIsNegative() {
+        assertEquals(5, App.add(-2, 7), "add(-2, 7) should return 5");
+    }
+
+    @Test
+    void addShouldReturnZeroWhenBothOperandsAreZero() {
+        assertEquals(0, App.add(0, 0), "add(0, 0) should return 0");
+    }
+
+    @Test
+    void addShouldWrapAroundOnIntegerOverflow() {
+        assertEquals(Integer.MIN_VALUE, App.add(Integer.MAX_VALUE, 1), "add(Integer.MAX_VALUE, 1) should overflow to Integer.MIN_VALUE");
+    }
+
+    @Test
+    void isPrimeShouldReturnFalseForNegativeNumbers() {
+        assertFalse(App.isPrime(-1), "Negative numbers are not prime");
+        assertFalse(App.isPrime(-10), "Negative numbers are not prime");
+    }
+
+    @Test
+    void isPrimeShouldReturnFalseForZeroAndOne() {
+        assertFalse(App.isPrime(0), "0 is not prime");
+        assertFalse(App.isPrime(1), "1 is not prime");
+    }
+
+    @Test
+    void isPrimeShouldReturnTrueForSmallPrimes() {
+        assertTrue(App.isPrime(2), "2 should be prime");
+        assertTrue(App.isPrime(3), "3 should be prime");
+    }
+
+    @Test
+    void isPrimeShouldReturnFalseForSmallCompositeNumbers() {
+        assertFalse(App.isPrime(4), "4 is not prime");
+        assertFalse(App.isPrime(9), "9 is not prime");
+        assertFalse(App.isPrime(15), "15 is not prime");
+    }
+
+    @Test
+    void isPrimeShouldReturnFalseForLargeCompositeNumber() {
+        assertFalse(App.isPrime(1000), "1000 is not prime");
+    }
+
+    @Test
+    void isPrimeShouldReturnTrueForLargePrimeNumber() {
+        assertTrue(App.isPrime(7919), "7919 should be prime");
+    }
+
+    @Test
+    void reverseShouldReturnReversedString() {
+        assertEquals("dcba", App.reverse("abcd"));
+    }
+
+    @Test
+    void reverseShouldHandleEmptyString() {
+        assertEquals("", App.reverse(""));
+    }
+
+    @Test
+    void reverseShouldHandleSingleCharacter() {
+        assertEquals("x", App.reverse("x"));
+    }
+
+    @Test
+    void reverseShouldHandleWhitespaceAndSpecialCharacters() {
+        assertEquals("@ olleH", App.reverse("Hello @"));
+    }
+
+    @Test
+    void reverseShouldHandleUnicodeCharacters() {
+        assertEquals("\u754c\u4e16\u597d\u4f60", App.reverse("\u4f60\u597d\u4e16\u754c"));
+    }
+
+    @Test
+    void reverseShouldThrowWhenInputIsNull() {
+        assertThrows(NullPointerException.class, () -> App.reverse(null));
+    }
+
+    @Test
+    void factorialShouldReturnOneForZero() {
+        assertEquals(1, App.factorial(0), "0! should be 1");
+    }
+
+    @Test
+    void factorialShouldReturnOneForOne() {
+        assertEquals(1, App.factorial(1), "1! should be 1");
+    }
+
+    @Test
+    void factorialShouldReturnCorrectValuesForSmallNumbers() {
+        assertEquals(2, App.factorial(2), "2! should be 2");
+        assertEquals(6, App.factorial(3), "3! should be 6");
+        assertEquals(24, App.factorial(4), "4! should be 24");
+        assertEquals(120, App.factorial(5), "5! should be 120");
+    }
+
+    @Test
+    void factorialShouldReturnLargestSafeIntFactorial() {
+        assertEquals(479001600, App.factorial(12), "12! should be 479001600");
+    }
+
+    @Test
+    void factorialShouldThrowForNegativeInput() {
+        assertThrows(IllegalArgumentException.class, () -> App.factorial(-1));
+    }
+
+    @Test
+    void isPalindromeShouldIgnoreNonAlphanumericCharacters() {
+        assertTrue(App.isPalindrome("A man, a plan, a canal: Panama"));
+    }
+
+    @Test
+    void isPalindromeShouldReturnTrueForEvenLengthPalindrome() {
+        assertTrue(App.isPalindrome("abba"));
+    }
+
+    @Test
+    void isPalindromeShouldReturnTrueForOddLengthPalindrome() {
+        assertTrue(App.isPalindrome("racecar"));
+    }
+
+    @Test
+    void isPalindromeShouldReturnTrueForSingleCharacter() {
+        assertTrue(App.isPalindrome("x"));
+    }
+
+    @Test
+    void isPalindromeShouldReturnTrueForEmptyString() {
+        assertTrue(App.isPalindrome(""));
+    }
+
+    @Test
+    void isPalindromeShouldReturnFalseForNonPalindromeString() {
+        assertFalse(App.isPalindrome("hello"));
+    }
+
+    @Test
+    void isPalindromeShouldHandleMixedCaseCorrectly() {
+        assertTrue(App.isPalindrome("Noon"));
+    }
+
+    @Test
+    void fibonacciUpToShouldReturnCorrectSequence() {
+        List<Integer> expected = Arrays.asList(0, 1, 1, 2, 3, 5, 8);
+        assertEquals(expected, App.fibonacciUpTo(8));
+    }
+
+    @Test
+    void fibonacciUpToShouldReturnSingleZeroForZeroInput() {
+        assertEquals(Arrays.asList(0), App.fibonacciUpTo(0));
+    }
+
+    @Test
+    void fibonacciUpToShouldReturnCorrectSequenceForOne() {
+        assertEquals(Arrays.asList(0, 1, 1), App.fibonacciUpTo(1));
+    }
+
+    @Test
+    void fibonacciUpToShouldReturnCorrectSequenceForTwo() {
+        assertEquals(Arrays.asList(0, 1, 1, 2), App.fibonacciUpTo(2));
+    }
+
+    @Test
+    void fibonacciUpToShouldReturnCorrectSequenceForNonFibonacciLimit() {
+        assertEquals(Arrays.asList(0, 1, 1, 2, 3, 5), App.fibonacciUpTo(7));
+    }
+
+    @Test
+    void fibonacciUpToShouldThrowForNegativeInput() {
+        assertThrows(IllegalArgumentException.class, () -> App.fibonacciUpTo(-1));
+    }
+
+    @Test
+    void charFrequencyShouldCountCharactersCorrectly() {
+        Map<Character, Integer> frequency = App.charFrequency("abbccc");
+        assertEquals(1, frequency.get('a'));
+        assertEquals(2, frequency.get('b'));
+        assertEquals(3, frequency.get('c'));
+    }
+
+    @Test
+    void charFrequencyShouldReturnEmptyMapForEmptyString() {
+        assertTrue(App.charFrequency("").isEmpty());
+    }
+
+    @Test
+    void isAnagramShouldReturnTrueForAnagramStrings() {
+        assertTrue(App.isAnagram("listen", "silent"));
+    }
+
+    @Test
+    void isAnagramShouldReturnTrueForStringsWithSpacesAndDifferentCase() {
+        assertTrue(App.isAnagram("Dormitory", "Dirty room"));
+    }
+
+    @Test
+    void isAnagramShouldReturnTrueForEmptyStrings() {
+        assertTrue(App.isAnagram("", ""));
+    }
+
+    @Test
+    void isAnagramShouldReturnFalseWhenOneStringIsEmpty() {
+        assertFalse(App.isAnagram("a", ""));
+    }
+
+    @Test
+    void isAnagramShouldReturnFalseForNonAnagramStrings() {
+        assertFalse(App.isAnagram("hello", "world"));
+    }
+
+    @Test
+    void averageShouldReturnCorrectDoubleValue() {
+        assertEquals(2.5, App.average(new int[]{1, 2, 3, 4}), 0.0001);
+    }
+
+    @Test
+    void averageShouldReturnSameValueForSingleElementArray() {
+        assertEquals(5.0, App.average(new int[]{5}), 0.0001);
+    }
+
+    @Test
+    void averageShouldThrowForEmptyArray() {
+        assertThrows(IllegalArgumentException.class, () -> App.average(new int[]{}));
+    }
+
+    @Test
+    void filterEvensShouldReturnOnlyEvenNumbers() {
+        assertEquals(Arrays.asList(2, 4, 6), App.filterEvens(Arrays.asList(1, 2, 3, 4, 5, 6)));
+    }
+
+    @Test
+    void filterEvensShouldReturnEmptyListForNoEvenNumbers() {
+        assertEquals(Arrays.asList(), App.filterEvens(Arrays.asList(1, 3, 5)));
+    }
+
+    @Test
+    void filterEvensShouldReturnEmptyListForEmptyInput() {
+        assertEquals(Arrays.asList(), App.filterEvens(Arrays.asList()));
+    }
+
+    @Test
+    void mostCommonWordShouldReturnExpectedWord() {
+        assertEquals("apple", App.mostCommonWord("apple banana apple orange apple"));
+    }
+
+    @Test
+    void mostCommonWordShouldHandlePunctuationAndCase() {
+        assertEquals("hello", App.mostCommonWord("Hello, hello! world?"));
     }
 }

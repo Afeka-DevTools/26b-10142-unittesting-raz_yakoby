@@ -5,9 +5,12 @@
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/8.14/userguide/building_java_projects.html in the Gradle documentation.
  */
 
+import org.gradle.testing.jacoco.tasks.JacocoReport
+
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+    jacoco
 }
 
 repositories {
@@ -40,4 +43,25 @@ application {
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+    
+    // Enable parallel test execution
+    maxParallelForks = Runtime.getRuntime().availableProcessors().toInt()
+}
+
+jacoco {
+    toolVersion = "0.8.10"
+}
+
+tasks.named<JacocoReport>("jacocoTestReport") {
+    executionData.setFrom(fileTree(layout.buildDirectory.dir("jacoco")).include("*.exec"))
+    sourceDirectories.setFrom(files("src/main/java"))
+    classDirectories.setFrom(
+        fileTree(layout.buildDirectory.dir("classes/java/main")).apply {
+            exclude("**/*Test*")
+        }
+    )
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+    }
 }

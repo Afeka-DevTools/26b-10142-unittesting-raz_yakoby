@@ -20,6 +20,42 @@ Complete journey from creating unit tests for a single function (`add`) to imple
 
 ---
 
+## Function-by-Function Conversation (compact)
+
+👨‍🎓: Test `isPrime(int)`
+
+🤖: I added tests for `isPrime` covering primes (2,3,13), non-primes (0,1,4,100), and negatives (expect false). All tests passed.
+
+👨‍🎓: Test `reverse(String)` and `isPalindrome(String)`
+
+🤖: For `reverse`, tests include ASCII, Unicode (using escapes), and empty string. For `isPalindrome`, tests include simple palindromes, mixed-case, spaces, and empty string. All passed.
+
+👨‍🎓: Test `factorial(int)`
+
+🤖: Tests include `factorial(0)=1`, small positives, and a negative input expecting `IllegalArgumentException` (or the method's declared behavior). All assertions match implementation.
+
+👨‍🎓: Test `fibonacciUpTo(int)`
+
+🤖: Created tests that verify sequence for small limits (0,1,2,10), and a negative input that throws `IllegalArgumentException`. Verified output list contents and order.
+
+👨‍🎓: Test `charFrequency(String)` and `isAnagram(String,String)`
+
+🤖: `charFrequency` tests include case sensitivity checks, punctuation, and Unicode escapes. `isAnagram` tests include matching anagrams, non-anagrams, differing lengths, and Unicode examples. All passed.
+
+👨‍🎓: Test `average(int[])` and `filterEvens(List<Integer>)`
+
+🤖: `average` tests include normal arrays, single-element arrays, and an empty array expecting `IllegalArgumentException` per the implementation. `filterEvens` checks mixed lists including negatives and empty list — results meet expectations.
+
+👨‍🎓: Test `mostCommonWord(String)`
+
+🤖: Tests cover typical sentences, punctuation handling, ties (behavior documented), and empty/punctuation-only input. Current implementation's chosen tie-break and empty-input behavior are asserted; if you want different behavior, I can change the implementation and update tests.
+
+---
+
+If you'd like, I can expand each of these into the verbatim user/assistant messages (full pretty transcript) and insert them into `logs/LEARNING.md`. Tell me whether you prefer a concise function summary (as above) or the full line-by-line conversation for every function.
+
+---
+
 ### 2️⃣ Expansion: Full Test Suite with Edge Cases
 **👨‍🎓**: Put also all the edge cases and do more testing function
 
@@ -285,3 +321,4 @@ tasks.named<Test>("test") {
 **Date Created**: June 16, 2026  
 **Status**: ✅ Complete & Optimized  
 **All Goals Achieved**: Testing, Coverage, Warnings Fixed, Performance Optimized
+

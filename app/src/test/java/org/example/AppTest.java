@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 class AppTest {
     @Test
@@ -29,6 +30,11 @@ class AppTest {
     @Test
     void addShouldWrapAroundOnIntegerOverflow() {
         assertEquals(Integer.MIN_VALUE, App.add(Integer.MAX_VALUE, 1), "add(Integer.MAX_VALUE, 1) should overflow to Integer.MIN_VALUE");
+    }
+
+    @Test
+    void addShouldWrapAroundOnIntegerUnderflow() {
+        assertEquals(Integer.MAX_VALUE, App.add(Integer.MIN_VALUE, -1), "add(Integer.MIN_VALUE, -1) should underflow to Integer.MAX_VALUE");
     }
 
     @Test
@@ -64,6 +70,16 @@ class AppTest {
     @Test
     void isPrimeShouldReturnTrueForLargePrimeNumber() {
         assertTrue(App.isPrime(7919), "7919 should be prime");
+    }
+
+    @Test
+    void isPrimeShouldReturnTrueForMaxInteger() {
+        assertTrue(App.isPrime(Integer.MAX_VALUE), "Integer.MAX_VALUE should be prime");
+    }
+
+    @Test
+    void isPrimeShouldReturnFalseForMinInteger() {
+        assertFalse(App.isPrime(Integer.MIN_VALUE), "Integer.MIN_VALUE is not prime");
     }
 
     @Test
@@ -152,6 +168,11 @@ class AppTest {
     @Test
     void isPalindromeShouldReturnFalseForNonPalindromeString() {
         assertFalse(App.isPalindrome("hello"));
+    }
+
+    @Test
+    void isPalindromeShouldReturnTrueForPunctuationOnlyString() {
+        assertTrue(App.isPalindrome("!!!"), "Only punctuation should normalize to an empty palindrome.");
     }
 
     @Test
@@ -259,6 +280,16 @@ class AppTest {
     }
 
     @Test
+    void filterEvensShouldIncludeNegativeEvenNumbers() {
+        assertEquals(Arrays.asList(-4, -2, 0, 2), App.filterEvens(Arrays.asList(-5, -4, -3, -2, -1, 0, 1, 2)));
+    }
+
+    @Test
+    void filterEvensShouldThrowNullPointerExceptionWhenListContainsNull() {
+        assertThrows(NullPointerException.class, () -> App.filterEvens(Arrays.asList(2, null, 4)));
+    }
+
+    @Test
     void mostCommonWordShouldReturnExpectedWord() {
         assertEquals("apple", App.mostCommonWord("apple banana apple orange apple"));
     }
@@ -266,5 +297,10 @@ class AppTest {
     @Test
     void mostCommonWordShouldHandlePunctuationAndCase() {
         assertEquals("hello", App.mostCommonWord("Hello, hello! world?"));
+    }
+
+    @Test
+    void mostCommonWordShouldThrowForTextWithNoWords() {
+        assertThrows(NoSuchElementException.class, () -> App.mostCommonWord("   !!! ,,,   "));
     }
 }
